@@ -7,7 +7,13 @@ let page = null;
 
 export default async function (stockName) {
     const browser = await puppeteer.launch({
-        headless: false,
+        protocolTimeout: 360_000,
+        timeout: 120_000,
+        headless: process.env.ENV === 'production' ? "new" : false,
+        args: process.env.ENV === 'production' ? [
+            "--no-sandbox",
+            "--disable-gpu",
+        ] : undefined
     });
 
     page = await browser.newPage();
