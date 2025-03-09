@@ -2,7 +2,7 @@ name: Build docker image and deploy to a VPS.
 
 on:
   push:
-    branches: ["main"]
+    branches: ["master"]
 
 env:
   REGISTRY: ghcr.io
