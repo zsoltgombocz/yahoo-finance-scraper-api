@@ -12,7 +12,6 @@ jobs:
   publish:
     name: Publish Image
     runs-on: ubuntu-latest
-    environment: production
 
     steps:
     - uses: actions/checkout@v3
@@ -33,11 +32,15 @@ jobs:
     environment: production
 
     steps:
+    - uses: actions/checkout@v3
     - name: Install SSH Keys
       run: | 
         install -m 600 -D /dev/null ~/.ssh/id_rsa
         echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
         ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
+    - name: Deploy Docker Compose File
+      run: |
+        scp docker-compose.prod.yml ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.WORK_DIR }}/docker-compose.yml
     - name: Connect and Pull
       run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }} && docker compose pull && docker compose up -d && exit"
     - name: Cleanup
