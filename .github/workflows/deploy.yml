@@ -40,11 +40,11 @@ jobs:
     - name: Deploy Docker Compose File
       run: |
         scp docker-compose.prod.yml ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.WORK_DIR }}/docker-compose.yml
-    - name: Connect and Login to ghcr
+    - name: Pull and Start Container
       run: | 
         ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}
         echo "${{ secrets.PAT }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-    - name: Pull and Compose
-      run: cd ${{ secrets.WORK_DIR }} && docker compose pull && docker compose up -d && exit
+        cd ${{ secrets.WORK_DIR }} && docker compose pull && docker compose up -d 
+        exit
     - name: Cleanup
       run: rm -rf ~/.ssh
