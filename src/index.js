@@ -7,7 +7,7 @@ const app = express();
 
 app.get('/', (_req, res) => {
     return res.json({
-        'title': 'Yahoo Scraper API',
+        'title': 'Yahoo Scraper API v1.1.0',
         'message': 'Private Yahoo Finance Scraper designed to retrieve data by providing a stock name.'
     });
 });
