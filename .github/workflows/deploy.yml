@@ -7,7 +7,6 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.actor }}/yahoo-scraper-api:latest
-  PERSONAL_ACCESS_TOKEN: ${{ secrets.PAT }}
 
 jobs:
   publish:
@@ -17,6 +16,8 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Login
+      env: 
+        PERSONAL_ACCESS_TOKEN: ${{ secrets.PAT }}
       run: | 
         echo ${{ env.PERSONAL_ACCESS_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
     - name: Build and Publish
