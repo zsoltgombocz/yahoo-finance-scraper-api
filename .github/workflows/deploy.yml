@@ -41,10 +41,7 @@ jobs:
       run: |
         scp docker-compose.prod.yml ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.WORK_DIR }}/docker-compose.yml
     - name: Pull and Start Container
-      run: | 
-        ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}
-        echo "${{ secrets.PAT }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-        cd ${{ secrets.WORK_DIR }} && docker compose pull && docker compose up -d 
-        exit
+      run: |
+        ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "echo '${{ secrets.PAT }}' | docker login ghcr.io -u ${{ github.actor }} --password-stdin && cd ${{ secrets.WORK_DIR }} && docker compose pull && docker compose up -d"
     - name: Cleanup
       run: rm -rf ~/.ssh
