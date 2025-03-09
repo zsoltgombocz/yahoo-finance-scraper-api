@@ -1,0 +1,9 @@
+services:
+  app:
+    container_name: yahoo-scraper-api
+    build: .
+    ports: 
+      - 3000:3333
+    environment:
+      YAHOO_FINANCE_BASE_URL: 'https://finance.yahoo.com/quote'
+      ENV: 'production'
